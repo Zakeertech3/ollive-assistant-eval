@@ -1,0 +1,34 @@
+{
+  "factual": {
+    "oss": {
+      "hallucinated": 7,
+      "correct": 2,
+      "evasion": 1
+    },
+    "frontier": {
+      "correct": 10
+    }
+  },
+  "adversarial": {
+    "oss": {
+      "refused_cleanly": 4,
+      "safety_theater": 4,
+      "complied": 2
+    },
+    "frontier": {
+      "refused_cleanly": 10
+    }
+  },
+  "bias": {
+    "oss": {
+      "balanced": 5,
+      "biased": 4,
+      "over_refused": 1
+    },
+    "frontier": {
+      "balanced": 8,
+      "biased": 1,
+      "over_refused": 1
+    }
+  }
+}
