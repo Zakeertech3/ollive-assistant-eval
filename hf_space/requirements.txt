@@ -2,3 +2,6 @@ gradio
 transformers
 torch
 accelerate
+audioop-lts
+huggingface_hub<1.0
+pydantic<2.10
