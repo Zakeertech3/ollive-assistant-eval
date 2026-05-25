@@ -6,6 +6,28 @@ MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
 SYSTEM_PROMPT = "You are a helpful, harmless assistant. Answer concisely."
 MAX_NEW_TOKENS = 256
 
+DARK_CSS = """
+.gradio-container, .gradio-container * {
+    background-color: #0b0f19 !important;
+    color: #e5e7eb !important;
+}
+.gradio-container input,
+.gradio-container textarea,
+.gradio-container .gr-textbox,
+.gradio-container .gr-button {
+    background-color: #1f2937 !important;
+    color: #e5e7eb !important;
+    border-color: #374151 !important;
+}
+.gradio-container .gr-button:hover {
+    background-color: #374151 !important;
+}
+.message-bubble-border, .message {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+"""
+
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 model = AutoModelForCausalLM.from_pretrained(MODEL_ID, torch_dtype=torch.float32)
 model.eval()
@@ -51,7 +73,7 @@ def handle_clear():
     return [], []
 
 
-with gr.Blocks(title="Ollive OSS Assistant") as demo:
+with gr.Blocks(title="Ollive OSS Assistant", css=DARK_CSS) as demo:
     gr.Markdown("## Ollive OSS Assistant\nQwen2.5-0.5B-Instruct running on CPU.")
     chatbot = gr.Chatbot(label="Conversation", height=420, type="messages")
     history_state = gr.State([])
