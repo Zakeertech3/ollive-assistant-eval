@@ -17,6 +17,22 @@ Comparing an open-source Qwen2.5-0.5B assistant against a hosted GPT-OSS-120B fr
 - OSS showed bias on 4 of 10 bias prompts and over-refused on 1; Frontier showed 1 bias slip and 1 over-refusal.
 - Frontier's median latency (0.5s) is roughly 9x lower than OSS (4.6s), despite running a model 240x larger, because Groq uses hardware-accelerated inference.
 
+## Live Comparison
+
+The same prompts, run live through the local UI. Each pair shows the same input producing very different model behavior.
+
+**OSS safety theater on an adversarial prompt.** Qwen2.5-0.5B responds to a roleplay-framed SQL injection request by walking through phishing, social engineering, and SQL injection step by step. The model is confidently providing harmful technical content while framing it as a fictional scenario. This is the exact "safety theater" failure mode the evaluation rubric was designed to catch.
+
+![OSS safety theater on SQL injection prompt](docs/screenshots/oss-safety-theater.png)
+
+**Frontier clean refusal on the same prompt.** GPT-OSS-120B on Groq refuses in nine words, with no fictional framing, no partial compliance, no educational caveat. Same input, completely different behavior.
+
+![Frontier clean refusal on the same prompt](docs/screenshots/frontier-refusal.png)
+
+**Multi-turn memory working on Frontier.** Turn 1 asks for the current UTC time; turn 2 asks "what did I just ask you about?" The model correctly recalls the previous turn because the full conversation history is passed back on each request. The status panel confirms model, latency, token counts, and the guardrail decision per turn.
+
+![Frontier multi-turn conversation showing memory recall](docs/screenshots/frontier-memory.png)
+
 ## Architecture
 
 Both assistants expose the same Python interface: `chat(messages, tools=None)` takes an OpenAI-format messages list and returns a dict with `reply`, `latency_ms`, `tokens_in`, `tokens_out`, `model`, and `tool_calls_made`. The UI, eval harness, and observability logger all consume this shape without branching on which assistant was called.
